@@ -1,6 +1,13 @@
 import Fastify from "fastify";
+import { appRoutes } from "./routes/route";
 
 const app = Fastify({ logger: true });
+
+app.get("/test", (req, res) => {
+  res.send("Hello Node");
+});
+
+app.register(appRoutes);
 
 app
   .listen({ port: Number(process.env.PORT) || 3333, host: "0.0.0.0" })
@@ -11,7 +18,3 @@ app
     app.log.error(err);
     process.exit(1);
   });
-
-app.get("/", (req, res) => {
-  res.send("Hello Nodeee");
-});
