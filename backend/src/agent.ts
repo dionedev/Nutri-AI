@@ -1,7 +1,11 @@
 import OpenAI from "openai";
 import type { DietPlanRequest } from "./types";
 import { readFileSync } from "node:fs";
-import { buildSystemPrompt, buildUserPrompt } from "./prompt";
+import {
+  buildDocsSystemPrompt,
+  buildSystemPrompt,
+  buildUserPrompt,
+} from "./prompt";
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY as string,
@@ -10,7 +14,7 @@ const client = new OpenAI({
 });
 
 export async function* generateDietPlan(input: DietPlanRequest) {
-  const instruction = readFileSync("knowledge/instruction.md", "utf-8");
+  const guidelines = readFileSync("knowledge/guidelines.md", "utf-8");
 
   const stream = await client.chat.completions.create({
     model: "gpt-4o-mini",
@@ -18,6 +22,10 @@ export async function* generateDietPlan(input: DietPlanRequest) {
       {
         role: "system",
         content: buildSystemPrompt(),
+      },
+      {
+        role: "system",
+        content: buildDocsSystemPrompt(guidelines),
       },
       {
         role: "user",

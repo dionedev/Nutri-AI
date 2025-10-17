@@ -29,7 +29,6 @@ export async function appRoutes(app: FastifyInstance) {
       reply.raw.write(`event: error\n ${JSON.stringify(err.message)}`);
       reply.raw.end();
     }
-
     return reply;
   });
 }

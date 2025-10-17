@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const DietPlanRequestSchema = z.object({
   name: z.string().min(2),
-  age: z.number().positive(),
+  age: z.number().int().positive(),
   height: z.number().positive(),
   weight: z.number().positive(),
   gender: z.enum(["masculino", "feminino"]),

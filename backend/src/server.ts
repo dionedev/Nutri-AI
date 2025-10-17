@@ -1,7 +1,13 @@
+import cors from "@fastify/cors";
 import Fastify from "fastify";
 import { appRoutes } from "./routes/route";
 
 const app = Fastify({ logger: true });
+
+await app.register(cors, {
+  origin: "*",
+  methods: ["GET", "POST"],
+});
 
 app.get("/test", (req, res) => {
   res.send("Hello Node");
